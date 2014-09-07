@@ -1,4 +1,4 @@
-package no.tarjei.recommendation;
+package io.monokkel.recommendation;
 
 import com.google.common.collect.Lists;
 import io.prediction.*;
@@ -34,6 +34,8 @@ public class Engine {
     public static final String ENGINE_MODE_RECOMMEND = "recommend";
 
     public static final int RECOMMENDATIONS_TO_RECEIVE = 10;
+
+    public static final String TRUE = "true";
 
     private Client client;
 
@@ -225,21 +227,24 @@ public class Engine {
     private void sendFeedback(Client client, String item, String timelineOwner, String isRetweet, String isRetweeted, String retweetCount, String isFavorited, String favoritedCount, String languageCode, String hasTags, String hasMedia, String hasMentions, String hasUrls, String timeStamp, String retweededStatus) throws InterruptedException, ExecutionException, IOException, UnidentifiedUserException {
 
         DateTime dateTime = convertTimeStamp(timeStamp);
-        String action = "dislike";
+        final String action = selectAction(isRetweeted, isFavorited);
 
-        if (isRetweeted.equals("true")) {
+        final UserActionItemRequestBuilder userActionItemRequestBuilder = client.getUserActionItemRequestBuilder(timelineOwner, action, item).t(dateTime);
+        client.userActionItem(userActionItemRequestBuilder);
+
+    }
+
+    private String selectAction(String isRetweeted, String isFavorited) {
+        String action;
+
+        if (isRetweeted.equals(TRUE)) {
             action = UserActionItemRequestBuilder.CONVERSION;
-        }
-
-
-        if (isFavorited.equals("true")) {
+        } else if (isFavorited.equals(TRUE)) {
             action = UserActionItemRequestBuilder.LIKE;
+        } else {
+            action = UserActionItemRequestBuilder.DISLIKE;
         }
-
-        final UserActionItemRequestBuilder userActionItemRequestBuilder = client.getUserActionItemRequestBuilder(timelineOwner, action, item);
-        final UserActionItemRequestBuilder actionItem = userActionItemRequestBuilder.t(dateTime);
-        client.userActionItem(actionItem);
-
+        return action;
     }
 
     private DateTime convertTimeStamp(String timeStamp) {

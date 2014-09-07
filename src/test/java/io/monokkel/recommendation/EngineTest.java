@@ -1,4 +1,4 @@
-package no.tarjei.recommendation;
+package io.monokkel.recommendation;
 
 import io.prediction.Client;
 import io.prediction.CreateItemRequestBuilder;
