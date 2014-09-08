@@ -5,6 +5,7 @@ import io.prediction.CreateItemRequestBuilder;
 import io.prediction.ItemRecGetTopNRequestBuilder;
 import io.prediction.UserActionItemRequestBuilder;
 import org.joda.time.DateTime;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -15,14 +16,22 @@ import static org.mockito.Mockito.*;
 
 public class EngineTest {
 
+    private Engine engine;
+
+    private Client mockedClient;
+
+    @Before
+    public void before(){
+        engine = new Engine();
+        mockedClient = Mockito.mock(Client.class);
+    }
+
 
     @Test
     public void start_withRecommendFlag_expectClientToBeCalledWithRequestBuilder() throws InterruptedException, ExecutionException, IOException {
 
-        Engine engine = new Engine();
-        final Client mockedClient = Mockito.mock(Client.class);
-
         ItemRecGetTopNRequestBuilder mockedItemRequestBuilder = Mockito.mock(ItemRecGetTopNRequestBuilder.class);
+
         final String engineName = "recommendation-info";
         final String uid = "96370324";
         when(mockedClient.getItemRecGetTopNRequestBuilder(engineName, uid, Engine.RECOMMENDATIONS_TO_RECEIVE)).thenReturn(mockedItemRequestBuilder);
@@ -38,16 +47,12 @@ public class EngineTest {
     @Test
     public void start_withTrainFlag_expectCreateItemToBeCalled() throws InterruptedException, ExecutionException, IOException {
 
-        Engine engine = new Engine();
-        final Client mockedClient = Mockito.mock(Client.class);
-
         final String engineName = "recommendation-info";
         CreateItemRequestBuilder mockedItemRequestBuilder = setupMockedItemRequestBuilder(mockedClient);
         setupUserActionRequestBuilder(mockedClient);
 
         engine.setClient(mockedClient);
         engine.start(new String[]{"-mode", Engine.ENGINE_MODE_TRAIN, "-appKey", "V573tdeT4p5sFFcXUwol7yXkflYe2oA93acTVxpeBfdy4w1DU3rdOzPbFXvTHqOg", "-engineName", engineName, "-dataFile", "testDataFile.csv"});
-
 
         verify(mockedClient, times(1)).createItem(mockedItemRequestBuilder);
     }
@@ -64,6 +69,7 @@ public class EngineTest {
 
         engine.setClient(mockedClient);
         engine.start(new String[]{"-mode", Engine.ENGINE_MODE_TRAIN, "-appKey", "V573tdeT4p5sFFcXUwol7yXkflYe2oA93acTVxpeBfdy4w1DU3rdOzPbFXvTHqOg", "-engineName", engineName, "-dataFile", "testDataFile.csv"});
+
         verify(mockedClient, times(1)).userActionItem(mockedUserActionRequestBuilder);
 
     }

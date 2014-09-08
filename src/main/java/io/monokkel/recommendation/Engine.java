@@ -39,15 +39,15 @@ public class Engine {
 
     private Client client;
 
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IOException {
 
         Engine engine = new Engine();
-        engine.setClient(new Client("")); // Empty string here. The appKey is set from the command line
+        engine.setClient(new Client("")); // The appKey is set from the command line.
         final Integer exitCode = engine.start(args);
         System.exit(exitCode);
     }
 
-    public Integer start(String[] args) {
+    public Integer start(String[] args) throws IOException {
 
         CommandLineParser commandLineParser = new GnuParser();
         Options options = createOptions();
@@ -64,8 +64,8 @@ public class Engine {
             case ENGINE_MODE_TRAIN:
                 if (parsedCommandLine.hasOption("dataFile")) {
                     final String dataFile = parsedCommandLine.getOptionValue("dataFile");
-                    trainWithDataFromDile(dataFile);
-                   return 0;
+                    trainWithDataFromFile(dataFile);
+                    return 0;
                 } else {
                     log.error("No dataFile parameter found in the command input");
                     printCommandHelp(options);
@@ -90,7 +90,7 @@ public class Engine {
 
     }
 
-    private void trainWithDataFromDile(final String dataFile) {
+    private void trainWithDataFromFile(final String dataFile) throws IOException {
         List<String> twitterData = null;
         try {
             File readData = new File(dataFile);
@@ -98,9 +98,6 @@ public class Engine {
         } catch (FileNotFoundException f) {
             log.warn("Could not find the file {}. Trying to find it on classpath", dataFile);
             twitterData = getTwitterDataFromClassPath(dataFile);
-        } catch (IOException e) {
-            log.error("Failed to read file {}", dataFile, e);
-            System.exit(1);
         }
 
         this.train(twitterData);
@@ -135,7 +132,7 @@ public class Engine {
 
 
     @SuppressWarnings("static-access")
-    private static Options createOptions() {
+    private Options createOptions() {
         Options options = new Options();
         Option mode = OptionBuilder.withDescription("Select mode of the recommendation engine. mode: train | recommend").hasArg(true).isRequired().create("mode");
         options.addOption(mode);
@@ -149,10 +146,8 @@ public class Engine {
         final Option dataFile = OptionBuilder.hasArg().create("dataFile");
         options.addOption(dataFile);
 
-
         final Option engineName = OptionBuilder.hasArg().isRequired().create("engineName");
         options.addOption(engineName);
-
 
         return options;
     }
@@ -172,7 +167,7 @@ public class Engine {
 
     }
 
-    public void train(final List<String> twitterData) {
+    private void train(final List<String> twitterData) {
 
         twitterData.parallelStream().filter(tweet -> !tweet.contains(FIRST_LINE)).map(tweet -> tweet.split(",")).forEach(tweetSplit -> {
 

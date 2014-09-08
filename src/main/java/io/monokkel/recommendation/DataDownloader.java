@@ -27,14 +27,13 @@ public class DataDownloader {
 
         DataDownloader dataDownloader = new DataDownloader();
 
-        final String consumerKey = "jtUBU2lkYGCKpWmoetljSWmC5";
-        final String consumerSecret = "Zz5blHwOIzvCMprj0Ct705umT5BZ5R56JYazLOA4OJsXWSxhzC";
-        final String accessToken = "96370324-PhI7uyoWMADfuYJq53vP249VNrV0eTu3xriPXFg1o";
-        final String accessTokenSecret = "9m6cGXn6EZcCgQdlwDM2TZ9wJkIoMStzvX8MCGULVu2qS";
+        final String consumerKey = "<insert consumer key here>";
+        final String consumerSecret = "<insert consumer secret>";
+        final String accessToken = "<insert access token here>";
+        final String accessTokenSecret = "<insert access token secret>";
         final String dataFileName = "datafile.csv";
 
         dataDownloader.run(consumerKey, consumerSecret, accessToken, accessTokenSecret, dataFileName);
-
 
 
     }
