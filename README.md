@@ -36,4 +36,4 @@ No cmd support yet... you need to edit the code
 
 * Find the Twitter id of your user. Hint: Look in the second column in the top of the data csv file
 * ```target/appassembler/bin/app -mode recommend -appKey <PredictionIO appKey> -engineName <PredictionIO engine name> -uid <The twitter user id (unsigned integer)>```
-* Read the super fancy output printed to the screen. It is a list of twitter ids. To see the actual tweet: http://twitter.com/statuses/<id>
+* Read the super fancy output printed to the screen. It is a list of twitter ids. To see the actual tweet: http://twitter.com/statuses/long_id_here
