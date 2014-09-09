@@ -20,7 +20,7 @@ No cmd support yet... you need to edit the code
 
 # Interact with PredictionIO
 
-* Install PredictionIO at localhost
+* Install PredictionIO at localhost: http://docs.prediction.io/current/installation/index.html
 * Create an application and engine
 * ```cd tweet-recommendation```
 * ```Run mvn clean package```
