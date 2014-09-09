@@ -1,0 +1,2 @@
+tweetId,timelineOwner,isRetweet,isRetweeted,retweetCount,isFavorited,favoritedCount,languageCode,hasTags,hasMedia,hasMentions,hasUrls,createdAt,hashTags
+4898552834,96370324,true,true,1,false,0,en,true,false,true,true,1408431392000,bigdata,architecture
