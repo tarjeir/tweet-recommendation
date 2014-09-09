@@ -13,7 +13,8 @@ No cmd support yet... you need to edit the code
 * Open class io.monokkel.recommendation.DataDownloader
 * Edit the variables with the correct keys from the web page. (API key == consumerKey and API secret == consumerSecret) 
 * Optional: Change the path of the datafile csv
-* Save and run it either with your ide or by using maven: mvn clean compile  exec:java -X -Dexec.mainClass="io.monokkel.recommendation.DataDownloader"
+* Save and run it either with your ide or by using maven: 
+```mvn clean compile  exec:java -X -Dexec.mainClass="io.monokkel.recommendation.DataDownloader"```
 * This would normally take a while to download all your friends last 200 tweets. It will hit a few request limits here and there and trigger a sleep.  
 * If you follow few accounts, it would be beneficially to get more than 200 tweets per user. Please hack the DataDownloader class!
 
