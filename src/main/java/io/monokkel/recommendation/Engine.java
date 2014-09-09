@@ -58,7 +58,6 @@ public class Engine {
         final String appKey = parsedCommandLine.getOptionValue("appKey");
         client.setAppkey(appKey);
 
-        final String engineName = parsedCommandLine.getOptionValue("engineName");
 
         switch (mode) {
             case ENGINE_MODE_TRAIN:
@@ -72,13 +71,14 @@ public class Engine {
                     return 1;
                 }
             case ENGINE_MODE_RECOMMEND:
-                if (parsedCommandLine.hasOption("uid")) {
+                if (parsedCommandLine.hasOption("uid") && parsedCommandLine.hasOption("engineName")) {
+                    final String engineName = parsedCommandLine.getOptionValue("engineName");
                     final String uid = parsedCommandLine.getOptionValue("uid");
                     this.recommend(uid, engineName);
                     return 0;
 
                 } else {
-                    log.error("No uid parameter found in the command input");
+                    log.error("No uid or engineName parameter found in the command input. Please supply both");
                     printCommandHelp(options);
                     return 1;
                 }
@@ -146,7 +146,7 @@ public class Engine {
         final Option dataFile = OptionBuilder.hasArg().create("dataFile");
         options.addOption(dataFile);
 
-        final Option engineName = OptionBuilder.hasArg().isRequired().create("engineName");
+        final Option engineName = OptionBuilder.hasArg().create("engineName");
         options.addOption(engineName);
 
         return options;
