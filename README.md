@@ -21,19 +21,19 @@ No cmd support yet... you need to edit the code
 # Interact with PredictionIO
 
 * Install PredictionIO at localhost
-* Create an application and an engine
-* cd tweet-recommendation
-* Run mvn clean package
-* chmod 755 target/appassembler/bin/app
+* Create an application and engine
+* ```cd tweet-recommendation```
+* ```Run mvn clean package```
+* ```chmod 755 target/appassembler/bin/app```
 
 ## Train/Upload data
 
-* target/appassembler/bin/app -mode train -appKey <PredictionIO appKey> -dataFile <Full or relative path> 
+* ```target/appassembler/bin/app -mode train -appKey <PredictionIO appKey> -dataFile <Full or relative path>``` 
 * Check the app page in the PredictionIO admin UI
 * Then find an algorithm and train it! (The difficult part)
 
 ## Test recommendation
 
 * Find the Twitter id of your user. Hint: Look in the second column in the top of the data csv file
-* target/appassembler/bin/app -mode recommend -appKey <PredictionIO appKey> -engineName <PredictionIO engine name> -uid <The twitter user id (unsigned integer)>
+* ```target/appassembler/bin/app -mode recommend -appKey <PredictionIO appKey> -engineName <PredictionIO engine name> -uid <The twitter user id (unsigned integer)>```
 * Read the super fancy output printed to the screen. It is a list of twitter ids. To see the actual tweet: http://twitter.com/statuses/<id>
